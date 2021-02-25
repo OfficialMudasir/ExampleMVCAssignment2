@@ -5,34 +5,96 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ExampleMVCAssignment2.Models;
+using Microsoft.Extensions.Logging;
+
+
 
 namespace ExampleMVCAssignment2.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+       
+
+        private readonly IStudentRepository _studentRepository;
+        private readonly object _listStudent;
+
+        public HomeController(IStudentRepository studentRepository)
+        {
+            
+            _studentRepository = studentRepository;
+        }
+
+
+        public ViewResult Index()
+        {
+            var studentDetails = _studentRepository.GetAllStudent();
+            return View(studentDetails);
+        }
+        public ViewResult Details(int? Id)
+        {
+            HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
+            {
+                Student = _studentRepository.GetStudent(Id ?? 1),
+                
+            };
+            //Student studentDetails =  _studentRepository.GetStudent(101);
+            return View(homeDetailsViewModel);
+        }
+
+
+        [HttpGet]
+        public ViewResult Create()
         {
             return View();
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public IActionResult Create(Student student)
         {
-            ViewData["Message"] = "Your application description page.";
-
+            if(ModelState.IsValid)
+            {
+                Student newStudent = _studentRepository.Add(student);
+                return RedirectToAction("details", new { id = student.StudentId });
+            }
             return View();
+           
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(int StudentId)
+        {
+            var student = _studentRepository.GetStudent(StudentId);
+            
+            if (student == null)
+            {
+                return RedirectToAction("NotFound");
+            }
+            
+            else
+            {
+                return View();
+            }
+            
         }
 
-        public IActionResult Contact()
+        [HttpPost]
+        public IActionResult Delete(Student student)
         {
-            ViewData["Message"] = "Your contact page.";
+            student = _studentRepository.Delete(student.StudentId);
 
-            return View();
+            if (student == null)
+            {
+                return RedirectToAction("NotFound");
+            }
+            else
+            {
+                return View("index");
+            }
+
+           
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

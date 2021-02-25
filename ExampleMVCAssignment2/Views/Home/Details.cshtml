@@ -1,0 +1,63 @@
+﻿<!--
+Using strongly typed Views
+
+
+-->
+@model ExampleMVCAssignment2.Models.HomeDetailsViewModel
+
+@{
+    ViewBag.Title = "Student Details";
+    
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+
+                <h1>@Model.Student.Name</h1>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Id</th>&nbsp;
+                        <th>Name</th>&nbsp;
+                        <th>Email</th>&nbsp;
+                        <th>Branch</th>&nbsp;
+                        <th>Gender</th>&nbsp;
+                        <th>Address</th>&nbsp;
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> @Model.Student.StudentId</td>&nbsp;
+                        <td> @Model.Student.Name</td>&nbsp;
+                        <td> @Model.Student.Email</td>&nbsp;
+                        <td> @Model.Student.Branch</td>&nbsp;
+                        <td> @Model.Student.Gender</td>&nbsp;
+                        <td> @Model.Student.Address</td>&nbsp;
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <!--<div class="card-body text-center">
+                <img class="card-img-top" src="~/images/Student.png" />
+                <h4>Studnet ID : </h4>
+                <h4>Email :</h4>
+                <h4>Branch :</h4>
+                <h4>Gender : </h4>
+                <h4>Address :</h4>
+            </div>
+                -->
+            <div class="card-footer text-center">
+                <a asp-controller="home" asp-action="index" class="btn btn-primary">Back</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{ 
+<script src="~/js/CustomScript.js"></script>
+}

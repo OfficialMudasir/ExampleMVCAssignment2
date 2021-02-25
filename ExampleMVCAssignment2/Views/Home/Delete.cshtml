@@ -1,0 +1,14 @@
+﻿@model ExampleMVCAssignment2.Models.Student
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Delete Confirmation</h3>
+<div class="alert alert-danger">
+    
+    <form method="get">
+        <h5>Are you sure you want to delete student - @Model.StudentId </h5>
+        <button type="submit" class="btn btn-danger">Yes</button>
+        <a asp-controller="home" asp-action="index" class="btn btn-primary">No</a>
+    </form>
+</div>
